@@ -1,0 +1,19 @@
+.mainSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.topContainer {
+  display: flex;
+  gap: 12px;
+  width: 522px;
+}
+
+.bottomContainer {
+  margin-top: 120px;
+  display: flex;
+  gap: 16px;
+}

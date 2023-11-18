@@ -1,0 +1,44 @@
+.mainSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.topContainer {
+  display: flex;
+  gap: 12px;
+  width: 952px;
+}
+
+.midContainer {
+  margin-top: 12px;
+  display: flex;
+  gap: 12px;
+  width: 952px;
+}
+
+.bottomContainer {
+  margin: 120px 0 0 0;
+  padding: 0;
+  display: flex;
+  gap: 16px;
+  list-style-type: none;
+}
+
+.containerItem {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.inputSize {
+  width: 204px;
+}
+
+.buttonSize {
+  width: 344px;
+}

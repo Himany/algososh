@@ -42,11 +42,13 @@ export const FibonacciPage: React.FC = () => {
             isLimitText={true}
             onChange={onChange}
             type="number"
+            value={fibNum}
           />
           <Button 
             text="Рассчитать"
             onClick={onClick}
             isLoader={isLoader}
+            disabled={fibNum <= 0 || fibNum > 19}
           />
         </div>
         <div className={styles.bottomContainer}>

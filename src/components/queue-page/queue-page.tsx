@@ -15,12 +15,15 @@ export const QueuePage: React.FC = () => {
   const [queue, setQueue] = React.useState(new Queue<string>(queueeSize));
   const [queueData, setQueueData] = React.useState<TQueueCircleObjects[]>(Array(queueeSize).fill(null).map((item, index, array) => {return({letter: item, state: ElementStates.Default})}));
   const [inputText, setInputText] = React.useState('');
+  const [isLoad, setIsLoad] = React.useState('');
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setInputText(e.target.value);
   }
 
   const push = async () => {
+    if (queue.getLength() >= queue.getSize()) {return}
+    setIsLoad('push');
     const array = queue.getElements().map((item, index, array) => {return({letter: item, state: ElementStates.Default})});
 
     array[queue.getTail()].state = ElementStates.Changing;
@@ -30,9 +33,12 @@ export const QueuePage: React.FC = () => {
     queue.enqueue(inputText);
     setInputText('');
     setQueueData([...queue.getElements().map((item, index, array) => {return({letter: item, state: ElementStates.Default})})]);
+    setIsLoad('');
   };
 
   const pop = async () => {
+    if (queue.isEmpty()) {return};
+    setIsLoad('pop');
     const array = queue.getElements().map((item, index, array) => {return({letter: item, state: ElementStates.Default})});
     
     array[queue.getHead()].state = ElementStates.Changing;
@@ -41,11 +47,14 @@ export const QueuePage: React.FC = () => {
     
     queue.dequeue();
     setQueueData([...queue.getElements().map((item, index, array) => {return({letter: item, state: ElementStates.Default})})]);
+    setIsLoad('');
   };
 
   const clear = () => {
+    setIsLoad('clear');
     queue.clear();
     setQueueData([...queue.getElements().map((item, index, array) => {return({letter: item, state: ElementStates.Default})})]);
+    setIsLoad('');
   };
 
   return (
@@ -61,18 +70,21 @@ export const QueuePage: React.FC = () => {
           <Button 
             text="Добавить"
             onClick={push}
-            disabled={!(inputText.length > 0)}
+            disabled={!(inputText.length > 0) || (queue.getLength() >= queue.getSize()) || !(isLoad === '')}
+            isLoader={isLoad === 'push'}
           />
           <Button 
             text="Удалить"
             onClick={pop}
-            disabled={(queue.isEmpty())}
+            disabled={(queue.isEmpty()) || !(isLoad === '')}
+            isLoader={isLoad === 'pop'}
           />
           <Button 
             text="Очистить"
             onClick={clear}
             extraClass={styles.buttonLeft}
-            disabled={(queue.isEmpty())}
+            disabled={(queue.isEmpty()) || !(isLoad === '')}
+            isLoader={isLoad === 'clear'}
           />
         </div>
         <div className={styles.bottomContainer}>

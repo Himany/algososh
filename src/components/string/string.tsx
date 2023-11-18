@@ -56,11 +56,13 @@ export const StringComponent: React.FC = () => {
             maxLength={11}
             isLimitText={true}
             onChange={onChange}
+            value={reverseText}
           />
           <Button 
             text="Развернуть"
             onClick={onClick}
             isLoader={isLoader}
+            disabled={isLoader || reverseText === ''}
           />
         </div>
         <div className={styles.bottomContainer}>

@@ -8,6 +8,8 @@ interface IQueue<T> {
   getHead: () => number;
   getTail: () => number;
   getLastElementIndex: () => number;
+  getSize: () => number;
+  getLength: () => number;
 }
 
 export class Queue<T> implements IQueue<T> {
@@ -63,4 +65,6 @@ export class Queue<T> implements IQueue<T> {
   getHead = () => ((this.head) % this.size);
   getTail = () => ((this.tail) % this.size);
   getLastElementIndex = () => ((this.tail - 1) % this.size);
+  getSize = () => this.size;
+  getLength = () => this.length;
 }

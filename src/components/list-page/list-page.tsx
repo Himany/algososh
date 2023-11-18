@@ -217,14 +217,14 @@ export const ListPage: React.FC = () => {
             onClick={addByIndex}
             extraClass={styles.buttonSize}
             isLoader={(isLoad === 'addByIndex') ? true : false}
-            disabled={!(isLoad === '') || (inputIndex === '') || (inputElement === '')}
+            disabled={!(isLoad === '') || (inputIndex === '') || (inputElement === '') || (Number(inputIndex) > (listData.length - 1))}
           />
           <Button 
             text="Удалить по индексу"
             onClick={deleteByIndex}
             extraClass={styles.buttonSize}
             isLoader={(isLoad === 'deleteByIndex') ? true : false}
-            disabled={!(isLoad === '') || (inputIndex === '')}
+            disabled={!(isLoad === '') || (inputIndex === '') || (Number(inputIndex) > (listData.length - 1))}
           />
         </div>
         <ul className={styles.bottomContainer}>

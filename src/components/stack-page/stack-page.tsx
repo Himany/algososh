@@ -15,12 +15,15 @@ export const StackPage: React.FC = () => {
   const [stack, setStack] = React.useState(new Stack<string>());
   const [stackData, setStackData] = React.useState<TCircleObjects[]>([]);
   const [inputText, setInputText] = React.useState('');
+  const [isLoad, setIsLoad] = React.useState('');
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setInputText(e.target.value);
   }
 
   const push = async () => {
+    if (inputText === '') {return};
+    setIsLoad('push');
     stack.push(inputText);
     setInputText('');
 
@@ -31,9 +34,12 @@ export const StackPage: React.FC = () => {
     await delay(SHORT_DELAY_IN_MS);
     array[array.length - 1].state = ElementStates.Default;
     setStackData([...array]);
+    setIsLoad('');
   };
 
   const pop = async () => {
+    if (stack.getSize() <= 0) {return};
+    setIsLoad('pop');
     const array = stack.getElements().map((item, index, array) => {return({letter: item, state: ElementStates.Default})});
     
     array[array.length - 1].state = ElementStates.Changing;
@@ -41,12 +47,16 @@ export const StackPage: React.FC = () => {
     await delay(SHORT_DELAY_IN_MS);
 
     stack.pop();
-    setStackData(stack.getElements().map((item, index, array) => {return({letter: item, state: ElementStates.Default})}))
+    setStackData(stack.getElements().map((item, index, array) => {return({letter: item, state: ElementStates.Default})}));
+    setIsLoad('');
   };
 
   const clear = () => {
+    if (stack.getSize() <= 0) {return};
+    setIsLoad('clear');
     stack.clear();
-    setStackData(stack.getElements().map((item, index, array) => {return({letter: item, state: ElementStates.Default})}))
+    setStackData(stack.getElements().map((item, index, array) => {return({letter: item, state: ElementStates.Default})}));
+    setIsLoad('');
   };
 
   return (
@@ -62,18 +72,21 @@ export const StackPage: React.FC = () => {
           <Button 
             text="Добавить"
             onClick={push}
-            disabled={!(inputText.length > 0)}
+            disabled={!(inputText.length > 0) || !(isLoad === '')}
+            isLoader={isLoad === 'push'}
           />
           <Button 
             text="Удалить"
             onClick={pop}
-            disabled={!(stack.getSize() > 0)}
+            disabled={!(stack.getSize() > 0) || !(isLoad === '')}
+            isLoader={isLoad === 'pop'}
           />
           <Button 
             text="Очистить"
             onClick={clear}
             extraClass={styles.buttonLeft}
-            disabled={!(stack.getSize() > 0)}
+            disabled={!(stack.getSize() > 0) || !(isLoad === '')}
+            isLoader={isLoad === 'clear'}
           />
         </div>
         <div className={styles.bottomContainer}>

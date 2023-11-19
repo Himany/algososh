@@ -1,0 +1,22 @@
+.mainSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.topContainer {
+  display: flex;
+  gap: 12px;
+  width: 522px;
+}
+
+.bottomContainer {
+  margin-top: 48px;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 48px;
+  column-gap: 16px;
+  width: 960px;
+}

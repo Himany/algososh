@@ -1,8 +1,9 @@
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from '../../src/constants/delays';
+import { circleContainer, bottomContainer, circleDefault, circleChanging, circleModified } from '../../src/constants/cypress';
 
 describe('Проверка связаного списка', function() {
   beforeEach(function() {
-    cy.visit('http://localhost:3000/list');
+    cy.visit('/list');
   });
 
   it('Кнопка добавления в head/tail недоступна (Инпут пустой)', function() {
@@ -31,93 +32,93 @@ describe('Проверка связаного списка', function() {
   });
 
   it('Проверка отрисовки дефолтного списка', function() {
-    cy.get('[class*=circle_content]').each(($el, index, array) => {
+    cy.get(circleContainer).each(($el, index, array) => {
       if (index === 0) {
         cy.wrap($el).contains('head');
       }
       if (index === (array.length - 1)) {
         cy.wrap($el).contains('tail');
       }
-      cy.wrap($el).children('[class*=circle_default]');
+      cy.wrap($el).children(circleDefault);
     });
   });
   it('Проверка добавления элемента в head', function() {
     cy.get('input').eq(0).type("4242");
     cy.get('button').contains('Добавить в head').click();
 
-    cy.get('[class*=circle_content]').eq(0).contains('4242');
-    cy.get('[class*=circle_content]').eq(0).children('[class*=circle_head]').children('[class*=circle_content]').children('[class*=circle_changing]');
-    cy.get('[class*=circle_content]').eq(0).children('[class*=circle_default]');
+    cy.get(circleContainer).eq(0).contains('4242');
+    cy.get(circleContainer).eq(0).children('[class*=circle_head]').children(circleContainer).children(circleChanging);
+    cy.get(circleContainer).eq(0).children(circleDefault);
 
     cy.wait(DELAY_IN_MS);
 
-    cy.get('[class*=circle_content]').eq(0).contains('4242');
-    cy.get('[class*=circle_content]').eq(0).contains('head');
-    cy.get('[class*=circle_content]').eq(0).children('[class*=circle_default]');
+    cy.get(circleContainer).eq(0).contains('4242');
+    cy.get(circleContainer).eq(0).contains('head');
+    cy.get(circleContainer).eq(0).children(circleDefault);
   });
   it('Проверка добавления элемента в tail', function() {
     cy.get('input').eq(0).type("2121");
     cy.get('button').contains('Добавить в tail').click();
 
-    cy.get('[class*=bottomContainer]').as("container");
+    cy.get(bottomContainer).as("container");
 
-    cy.get('[class*=circle_content]').last().contains('2121');
-    cy.get('@container').children().last().children('[class*=circle_content]').children('[class*=circle_head]').children('[class*=circle_content]').children('[class*=circle_changing]');
-    cy.get('[class*=circle_content]').last().children('[class*=circle_default]');
+    cy.get(circleContainer).last().contains('2121');
+    cy.get('@container').children().last().children(circleContainer).children('[class*=circle_head]').children(circleContainer).children(circleChanging);
+    cy.get(circleContainer).last().children(circleDefault);
 
     cy.wait(DELAY_IN_MS);
 
-    cy.get('[class*=circle_content]').last().contains('2121');
-    cy.get('[class*=circle_content]').last().contains('tail');
-    cy.get('[class*=circle_content]').last().children('[class*=circle_default]');
+    cy.get(circleContainer).last().contains('2121');
+    cy.get(circleContainer).last().contains('tail');
+    cy.get(circleContainer).last().children(circleDefault);
   });
   it('Проверка добавления по индексу', function() {
     cy.get('input').eq(0).type("4242");
     cy.get('input').eq(1).type("1");
     cy.get('button').contains('Добавить по индексу').click();
 
-    cy.get('[class*=circle_content]').eq(0).contains('4242');
+    cy.get(circleContainer).eq(0).contains('4242');
     cy.wait(DELAY_IN_MS);
-    cy.get('[class*=circle_content]').eq(1).contains('4242');
+    cy.get(circleContainer).eq(1).contains('4242');
     cy.wait(DELAY_IN_MS);
-    cy.get('[class*=circle_content]').eq(1).children('[class*=circle_modified]');
-    cy.get('[class*=circle_content]').eq(1).contains('4242');
+    cy.get(circleContainer).eq(1).children(circleModified);
+    cy.get(circleContainer).eq(1).contains('4242');
   });
   
   it('Удаление элемента из head', function() {
     cy.get('input').eq(0).type("4242");
     cy.get('button').contains('Добавить в head').click();
 
-    cy.get('[class*=circle_content]').eq(0).contains('4242');
-    cy.get('[class*=circle_content]').eq(0).children('[class*=circle_head]').children('[class*=circle_content]').children('[class*=circle_changing]');
-    cy.get('[class*=circle_content]').eq(0).children('[class*=circle_default]');
+    cy.get(circleContainer).eq(0).contains('4242');
+    cy.get(circleContainer).eq(0).children('[class*=circle_head]').children(circleContainer).children(circleChanging);
+    cy.get(circleContainer).eq(0).children(circleDefault);
 
     cy.wait(DELAY_IN_MS);
 
-    cy.get('[class*=circle_content]').eq(0).contains('4242');
-    cy.get('[class*=circle_content]').eq(0).contains('head');
-    cy.get('[class*=circle_content]').eq(0).children('[class*=circle_default]');
+    cy.get(circleContainer).eq(0).contains('4242');
+    cy.get(circleContainer).eq(0).contains('head');
+    cy.get(circleContainer).eq(0).children(circleDefault);
 
     cy.wait(DELAY_IN_MS);
 
     cy.get('button').contains('Удалить из head').click();
 
-    cy.get('[class*=circle_content]').eq(0).contains('4242');
-    cy.get('[class*=circle_content]').eq(0).children('[class*=circle_tail]').children('[class*=circle_content]').children('[class*=circle_changing]');
-    cy.get('[class*=circle_content]').eq(0).children('[class*=circle_default]');
+    cy.get(circleContainer).eq(0).contains('4242');
+    cy.get(circleContainer).eq(0).children('[class*=circle_tail]').children(circleContainer).children(circleChanging);
+    cy.get(circleContainer).eq(0).children(circleDefault);
 
     cy.wait(DELAY_IN_MS);
 
-    cy.get('[class*=circle_content]').eq(0).contains('4242').should('not.exist');
+    cy.get(circleContainer).eq(0).contains('4242').should('not.exist');
   });
   it('Удаление элемента из tail', function() {
     cy.get('input').eq(0).type("2121");
     cy.get('button').contains('Добавить в tail').click();
 
-    cy.get('[class*=bottomContainer]').as("container");
+    cy.get(bottomContainer).as("container");
 
     cy.get('@container').children().last().contains('2121');
-    cy.get('@container').children().last().children('[class*=circle_content]').children('[class*=circle_head]').children('[class*=circle_content]').children('[class*=circle_changing]');
+    cy.get('@container').children().last().children(circleContainer).children('[class*=circle_head]').children(circleContainer).children(circleChanging);
 
     cy.wait(DELAY_IN_MS);
 
@@ -129,7 +130,7 @@ describe('Проверка связаного списка', function() {
     cy.get('button').contains('Удалить из tail').click();
 
     cy.get('@container').last().contains('2121');
-    cy.get('@container').children().last().children('[class*=circle_content]').children('[class*=circle_tail]').children('[class*=circle_content]').children('[class*=circle_changing]');
+    cy.get('@container').children().last().children(circleContainer).children('[class*=circle_tail]').children(circleContainer).children(circleChanging);
 
     cy.wait(DELAY_IN_MS);
 
@@ -140,12 +141,12 @@ describe('Проверка связаного списка', function() {
     cy.get('input').eq(1).type("1");
     cy.get('button').contains('Добавить по индексу').click();
 
-    cy.get('[class*=circle_content]').eq(0).contains('4242');
+    cy.get(circleContainer).eq(0).contains('4242');
     cy.wait(DELAY_IN_MS);
-    cy.get('[class*=circle_content]').eq(1).contains('4242');
+    cy.get(circleContainer).eq(1).contains('4242');
     cy.wait(DELAY_IN_MS);
-    cy.get('[class*=circle_content]').eq(1).children('[class*=circle_modified]');
-    cy.get('[class*=circle_content]').eq(1).contains('4242');
+    cy.get(circleContainer).eq(1).children(circleModified);
+    cy.get(circleContainer).eq(1).contains('4242');
 
     cy.wait(DELAY_IN_MS);
     cy.get('input').eq(1).type("1");
@@ -153,18 +154,18 @@ describe('Проверка связаного списка', function() {
 
     cy.wait(DELAY_IN_MS);
 
-    cy.get('[class*=circle_content]').eq(0).children('[class*=circle_changing]');
+    cy.get(circleContainer).eq(0).children(circleChanging);
 
     cy.wait(DELAY_IN_MS);
 
-    cy.get('[class*=circle_content]').eq(1).children('[class*=circle_default]');
+    cy.get(circleContainer).eq(1).children(circleDefault);
 
-    cy.get('[class*=circle_content]').eq(1).contains('4242');
-    cy.get('[class*=circle_content]').eq(1).children('[class*=circle_tail]').children('[class*=circle_content]').children('[class*=circle_changing]');
-    cy.get('[class*=circle_content]').eq(1).children('[class*=circle_default]');
+    cy.get(circleContainer).eq(1).contains('4242');
+    cy.get(circleContainer).eq(1).children('[class*=circle_tail]').children(circleContainer).children(circleChanging);
+    cy.get(circleContainer).eq(1).children(circleDefault);
 
     cy.wait(DELAY_IN_MS);
 
-    cy.get('[class*=circle_content]').eq(1).contains('4242').should('not.exist');
+    cy.get(circleContainer).eq(1).contains('4242').should('not.exist');
   });
 }); 

@@ -1,8 +1,9 @@
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from '../../src/constants/delays';
+import { circleContainer, bottomContainer } from '../../src/constants/cypress';
 
 describe('Проверка Фибоначчи', function() {
   beforeEach(function() {
-    cy.visit('http://localhost:3000/fibonacci');
+    cy.visit('/fibonacci');
   });
 
   it('Кнопка заблокирована (Инпут пустой)', function() {
@@ -24,7 +25,7 @@ describe('Проверка Фибоначчи', function() {
 
     cy.wait(1);
 
-    cy.get('[class*=bottomContainer]').as("container");
+    cy.get(bottomContainer).as("container");
 
     cy.get('@container').children().should('have.length', 1);
     cy.get('@container').children().eq(0).should('contain', '1');

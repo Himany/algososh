@@ -1,8 +1,9 @@
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from '../../src/constants/delays';
+import { circleContainer, bottomContainer, circleDefault, circleChanging, circleModified } from '../../src/constants/cypress';
 
 describe('Проверка стека', function() {
   beforeEach(function() {
-    cy.visit('http://localhost:3000/stack');
+    cy.visit('/stack');
   });
 
   it('Кнопка заблокирована (Инпут пустой)', function() {
@@ -31,7 +32,7 @@ describe('Проверка стека', function() {
 
     cy.wait(1);
 
-    cy.get('[class*=bottomContainer]').as("container");
+    cy.get(bottomContainer).as("container");
 
     cy.get('@container').children().should('have.length', 1);
     cy.get('@container').children().eq(0).should('contain', 5);
@@ -76,7 +77,7 @@ describe('Проверка стека', function() {
 
     cy.wait(1);
 
-    cy.get('[class*=bottomContainer]').as("container");
+    cy.get(bottomContainer).as("container");
     
     cy.wait(SHORT_DELAY_IN_MS);
 
@@ -119,7 +120,7 @@ describe('Проверка стека', function() {
 
     cy.wait(1);
 
-    cy.get('[class*=bottomContainer]').as("container");
+    cy.get(bottomContainer).as("container");
     
     cy.wait(SHORT_DELAY_IN_MS);
 

@@ -1,20 +1,20 @@
 describe('Service pages is available', function() {
   it('Page: recursion', function() {
-    cy.visit('http://localhost:3000/recursion');
+    cy.visit('/recursion');
   });
   it('Page: fibonacci', function() {
-    cy.visit('http://localhost:3000/fibonacci');
+    cy.visit('/fibonacci');
   });
   it('Page: sorting', function() {
-    cy.visit('http://localhost:3000/sorting');
+    cy.visit('/sorting');
   });
   it('Page: stack', function() {
-    cy.visit('http://localhost:3000/stack');
+    cy.visit('/stack');
   });
   it('Page: queue', function() {
-    cy.visit('http://localhost:3000/queue');
+    cy.visit('/queue');
   });
   it('Page: list', function() {
-    cy.visit('http://localhost:3000/list');
+    cy.visit('/list');
   });
 }); 

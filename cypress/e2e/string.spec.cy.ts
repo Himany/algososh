@@ -1,8 +1,9 @@
 import { DELAY_IN_MS } from '../../src/constants/delays';
+import { circleContainer, bottomContainer, circleDefault, circleChanging, circleModified } from '../../src/constants/cypress';
 
 describe('Проверка строки', function() {
   beforeEach(function() {
-    cy.visit('http://localhost:3000/recursion');
+    cy.visit('/recursion');
   });
 
   it('Кнопка заблокирована (Инпут пустой)', function() {
@@ -26,7 +27,7 @@ describe('Проверка строки', function() {
 
     cy.wait(1);
 
-    cy.get('[class*=bottomContainer]').as("container");
+    cy.get(bottomContainer).as("container");
     cy.get('@container').children().should('have.length', stringReverse.length);
     
     /*

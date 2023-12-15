@@ -6,7 +6,7 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { TCircleObjects } from "../../types/string";
-import { swap, delay } from "../../utils/utils";
+import { swap, delay, reverseString } from "../../utils/utils";
 import { DELAY_IN_MS } from "../../constants/delays";
 
 export const StringComponent: React.FC = () => {
@@ -24,25 +24,26 @@ export const StringComponent: React.FC = () => {
   }
 
   const reverseTextAction = async (text: string) => {
-    const letters = reverseText.split('');
-    const letterObjects: TCircleObjects[]  = [];
-    letters.forEach((item) => {
-      letterObjects.push({
-        letter: item,
-        state: ElementStates.Default
+    const result = reverseString(text);
+    console.log(result);
+
+    for (let min = 0; min < result.length; min++) {
+      const current = result[min];
+      const max = (text.length - 1) - min;
+      let letterObjects: TCircleObjects[]  = [];
+
+      current.forEach((item, index) => {
+        letterObjects.push({
+          letter: item,
+          state: (index < min || index > max) ? ElementStates.Modified : ((index === min || index === max) ? ElementStates.Changing : (ElementStates.Default))
+        });
       });
-    });
-    setCircleLetter(letterObjects);
-    for (let i = 0, j = letters.length - 1; i <= j; i++, j--) {
-      letterObjects[i].state = ElementStates.Changing;
-      letterObjects[j].state = ElementStates.Changing;
-      setCircleLetter([...letterObjects]);
+      setCircleLetter(letterObjects);
       await delay(DELAY_IN_MS);
 
-      swap<TCircleObjects>(letterObjects, i, j);
-
-      letterObjects[i].state = ElementStates.Modified;
-      letterObjects[j].state = ElementStates.Modified;
+      swap<TCircleObjects>(letterObjects, min, max);
+      letterObjects[min].state = ElementStates.Modified;
+      letterObjects[max].state = ElementStates.Modified;
       setCircleLetter([...letterObjects]);
       await delay(DELAY_IN_MS);
     }

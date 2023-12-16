@@ -5,7 +5,7 @@ import { RadioInput } from "../ui/radio-input/radio-input";
 import { Button } from "../ui/button/button"; 
 import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
-import { randomArr, swap, delay } from "../../utils/utils";
+import { randomArr, swap, delay, sortingSelect, sortingBubble} from "../../utils/utils";
 import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { TColumnObjects } from "../../types/sorting";
@@ -35,50 +35,20 @@ export const SortingPage: React.FC = () => {
   }
 
   const sortingArraySelect = async (type: Direction) => {
-    const numbersArrayCopy = [...numbersArray];
-    for (let i = 0; i < numbersArray.length; i++) {
-      numbersArrayCopy[i].state = ElementStates.Changing;
-      let current = i;
-      for (let j = i + 1; j < numbersArray.length; j++) {
-        numbersArrayCopy[j].state = ElementStates.Changing;
-        if (
-            ((type === Direction.Descending) && (numbersArrayCopy[current].index < numbersArrayCopy[j].index)) ||
-            ((type === Direction.Ascending) && (numbersArrayCopy[current].index > numbersArrayCopy[j].index))
-          ) {current = j};
+    const result = sortingSelect(numbersArray, type);
 
-        setNumbersArray([...numbersArrayCopy]);
-        await delay(SHORT_DELAY_IN_MS);
-        numbersArrayCopy[j].state = ElementStates.Default;
-        setNumbersArray([...numbersArrayCopy]);
-      }
-      swap<TColumnObjects>(numbersArrayCopy, i, current);
-
-      numbersArrayCopy[current].state = ElementStates.Default;
-      numbersArrayCopy[i].state = ElementStates.Modified;
-      setNumbersArray([...numbersArrayCopy]);
-      console.log(numbersArrayCopy);
+    for (let i = 0; i < result.length; i++) {
+      setNumbersArray([...result[i]]);
+      await delay(SHORT_DELAY_IN_MS);
     }
   }
 
   const sortingBubbleSelect = async (type: Direction) => {
-    const numbersArrayCopy = [...numbersArray];
-    for (let i = 0; i < numbersArray.length; i++) {
-      for (let j = 0; j < numbersArray.length - i - 1; j++) {
-        numbersArrayCopy[j].state = ElementStates.Changing;
-        numbersArrayCopy[j + 1].state = ElementStates.Changing;
-        if (
-            ((type === Direction.Descending) && (numbersArrayCopy[j].index < numbersArrayCopy[j + 1].index)) ||
-            ((type === Direction.Ascending) && (numbersArrayCopy[j].index > numbersArrayCopy[j + 1].index))
-          ) {
-            swap(numbersArrayCopy, j, j + 1);
-          };
+    const result = sortingBubble(numbersArray, type);
 
-        setNumbersArray([...numbersArrayCopy]);
-        await delay(SHORT_DELAY_IN_MS);
-        numbersArrayCopy[j].state = ElementStates.Default;
-        numbersArrayCopy[j + 1].state = ElementStates.Default;
-      }
-      numbersArrayCopy[numbersArray.length - i - 1].state = ElementStates.Modified;
+    for (let i = 0; i < result.length; i++) {
+      setNumbersArray([...result[i]]);
+      await delay(SHORT_DELAY_IN_MS);
     }
   }
 
